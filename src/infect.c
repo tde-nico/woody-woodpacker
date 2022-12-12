@@ -1,5 +1,7 @@
 #include "woody-woodpacker.h"
 
+extern void	_encrypt(char *dst, char *src, size_t start, size_t end, uint8_t key);
+
 int	create_binary(t_packer *infected, t_packer *pack)
 {
 	infected->fd = open(OUTPUT_NAME, O_RDWR | O_CREAT | O_TRUNC, 0777);
@@ -154,10 +156,16 @@ void	insert_shellcode(t_packer *pack, t_packer infected, t_bdata bdata)
 		printf("\teof:\t0x%lx -> %lu\n\n", eof, eof);
 	}
 
+	// pre-encrypt
 	while (offset_dst < encrypt_begin)
 		infected.map[offset_dst++] = pack->map[offset_src++];
-	while (offset_dst < encrypt_end)
-		infected.map[offset_dst++] = pack->map[offset_src++] ^ *(pack->key);
+
+	// encrypt (asm-x86)
+	_encrypt(infected.map, pack->map, offset_dst, encrypt_end, *(pack->key));
+	offset_src += encrypt_end - offset_dst;
+	offset_dst = encrypt_end;
+
+	// post-encrypt
 	while (offset_dst < payload_begin)
 		infected.map[offset_dst++] = pack->map[offset_src++];
 	fake_page_inject(fake_page, bdata);
