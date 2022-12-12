@@ -1,0 +1,9 @@
+# directories
+obj/
+.vscode/
+
+# files
+a.out
+woody
+woody-woodpacker
+
