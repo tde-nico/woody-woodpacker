@@ -24,7 +24,7 @@
 # define SET_SIGNATURE	ENABLED
 # define SIGNATURE		0x424242
 
-# define DEBUG			0
+# define DEBUG			1
 
 /*	USEFUL COMMANDS
 
