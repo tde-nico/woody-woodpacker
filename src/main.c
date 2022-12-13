@@ -37,7 +37,11 @@ int	init(t_packer *pack, char **argv)
 	if (argv[2] == NULL)
 		ft_memcpy(pack->key, &default_key, KEY_SIZE);
 	else
-		ft_memcpy(pack->key, &argv[2][0], KEY_SIZE); // TODO (better encryption)
+	{
+		while (*(argv[2]))
+			default_key = (default_key * *(argv[2]++)) % 256;
+		ft_memcpy(pack->key, &default_key, KEY_SIZE);
+	}
 	set_key(*(pack->key));
 	return (0);
 }
