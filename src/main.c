@@ -67,7 +67,7 @@ int	main(int argc, char **argv)
 	t_packer	pack;
 
 	if (argc < 2 || argc > 3)
-		return (raise("Usage: ./woody-woodpacker target [key]"));
+		return (raise("Usage: ./woody_woodpacker target [key]"));
 	if (
 		init(&pack, argv) ||
 		build(&pack)
